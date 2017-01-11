@@ -1,6 +1,6 @@
 import os
 import time
-from utils import stringify_list, get_countries
+from utils import stringify_list
 import requests
 try:
     import urlparse
