@@ -69,18 +69,16 @@ def interface(generate_code_only=False):
     metrics = [metrics_choices[index] for index in metrics_index]
     print
 
-    # Country filter is buggy
-    # str_country_code = raw_input("Please enter comma-separated country codes of countries to filter for (Press Enter to skip):\n> ")
-    # if str_country_code:
-    #     country_codes = str_country_code.replace(" ", "").split(",")
-    # else:
-    #     country_codes = []
-    # print
-    country_codes = []
+    str_country_code = raw_input("Please enter comma-separated country ISO codes of countries to filter for (Press Enter to skip):\n> ")
+    if str_country_code:
+        country_codes = str_country_code.replace(" ", "").upper().split(",")
+    else:
+        country_codes = []
+    print
 
     # Execute query
     print "Code snippet:\n----------------------------------------------\n"
-    print """from flurry import Flurry_api\n\nflurry = Flurry_api("{0}", "{1}")\nresults = flurry.get_app_metric("{2}", "{3}", {4}, {5}, filter_countries={6})\n
+    print """from flurry import Flurry_api\n\nflurry = Flurry_api("{0}", "{1}")\nresults = flurry.get_app_metric("{2}", "{3}", {4}, {5}, filter_country_iso={6})\n
     """.format(start, end, table, time_grain, dimensions, metrics, country_codes)
 
     if not generate_code_only:

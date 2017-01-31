@@ -42,7 +42,7 @@ class Flurry_api(object):
         self.base_url = "https://api-metrics.flurry.com/public/v1/data/"
         # self.events_api_url = urlparse.urljoin(base_url, "realtime")
 
-    def get_app_metric(self, table, time_grain, dimensions, metrics, filter_countries=[]):
+    def get_app_metric(self, table, time_grain, dimensions, metrics, filter_country_iso=[]):
         """
         app_metric must be one of the following:
         ActiveUsers, NewUsers, MedianSessionLength, AvgSessionLength,
@@ -85,16 +85,8 @@ class Flurry_api(object):
                 str_metrics_chosen = stringify_list([metric for metric in choice_metrics if metric in metrics]).replace(" ", "")
                 get_url = get_url + "?metrics=" + str_metrics_chosen + "&dateTime=" + self.start_date + "/" + self.end_date
 
-                # country filters is still buggy
-                # if filter_countries:
-                    # country_dict = get_countries()
-                    # country_set = set(country_dict)
-                    # filter_country_set = set(filter_countries)
-                    # if filter_country_set < country_set:   # If filter countries is a subset of all countries
-                    #     country_ids = [country_dict[country]["id"] for country in filter_countries]
-                    #     get_url = get_url + "&filters=country|id-in" + str(country_ids).replace(" ", "").replace("'", "")
-                    # else:
-                    #     print "The following country codes are invalid: {}".format(filter_country_set - country_set)
+                if filter_country_iso:
+                    get_url = get_url + "&filters=country|iso-in" + str(filter_country_iso).replace(" ", "").replace("'", "").upper()
 
                 print "API url:\n{}\n".format(get_url)
                 time.sleep(1)
